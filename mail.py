@@ -5,6 +5,7 @@ import smtplib
 import poplib
 import requests
 import email
+import urllib.parse
 from email.parser import Parser
 from email.utils import parseaddr
 from email.mime.text import MIMEText
@@ -76,6 +77,8 @@ while index >0 :
         msg = Parser().parsestr(msg_content)
         #print_info(msg)
         url=decode_str(msg.get("subject"))
+        if not url.startswith('http'):
+                url="https://www.google.com/search?q="+urllib.parse.quote(url)
         print("GET HTTP :"+url)
         hdr,mail_from=parseaddr(msg.get("from"))
         print("Get mail from: "+mail_from);
