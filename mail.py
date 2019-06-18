@@ -90,7 +90,7 @@ while index >0 :
         index=index-1
         headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3202.89 Safari/537.36'}
         cook = {"Cookie":'BAIDUID=FE0F97F1FC37C47792091A2523CD945F:FG=1; HMACCOUNT=CC6D0E280C842123'}
-        lit = ['pdf', 'zip', 'rar', 'gz','exe','msi']
+        lit = ['pdf', 'zip', 'rar', 'gz','exe','msi','xls','doc','xlsx','docx','txt','jpg','jpeg','png','gif']
         for tp in lit:
                 if url.endswith(tp) :
                         urllib.request.urlretrieve(url, "attach."+tp)
