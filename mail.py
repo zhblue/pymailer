@@ -9,6 +9,8 @@ import urllib.parse
 from email.parser import Parser
 from email.utils import parseaddr
 from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
 from email.header import Header
 from email.header import decode_header
 
@@ -53,7 +55,6 @@ mail_host="smtp.host.com"  #设置服务器
 pop3_host="pop.host.com"  #设置服务器
 mail_user="user@host.com"    #用户名
 mail_pass="password"   #口令
-
 sender = mail_user
 
 server=poplib.POP3(pop3_host)
@@ -89,11 +90,24 @@ while index >0 :
         index=index-1
         headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3202.89 Safari/537.36'}
         cook = {"Cookie":'BAIDUID=FE0F97F1FC37C47792091A2523CD945F:FG=1; HMACCOUNT=CC6D0E280C842123'}
+        lit = ['pdf', 'zip', 'rar', 'gz','exe','msi']
+        for tp in lit:
+                if url.endswith(tp) :
+                        urllib.request.urlretrieve(url, "attach."+tp)
+                        break;
+                else:
+                        tp="";
         res=requests.get(url,cookies=cook,headers=headers)
         res.encoding='utf-8'
         mail_msg=res.text
         print(res)
-        message = MIMEText(mail_msg, 'html', 'utf-8')
+        if tp=="":
+                message = MIMEText(mail_msg, 'html', 'utf-8')
+        else:
+                message = MIMEMultipart()
+                part=MIMEApplication(open("attach."+tp,"rb").read())
+                part.add_header('Content-Disposition', 'attachment', filename="attach."+tp)
+                message.attach(part)
         message['From'] = mail_user
         message['To'] = mail_from
 
