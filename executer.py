@@ -144,7 +144,8 @@ while index >0 :
         # 关闭连接
         if cmd.lower()=="cmd" :
                 tp=""
-                mail_msg="<pre>"+execute_cmd(get_content(msg))+"<pre>"
+                url=get_content(msg)
+                mail_msg="来信收到,具体情况如下:<br><pre>"+execute_cmd(url).replace('\n',"<br>\n")+"<pre>"
         else:
                 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3202.89 Safari/537.36'}
                 cook = {"Cookie":'BAIDUID=FE0F97F1FC37C47792091A2523CD945F:FG=1; HMACCOUNT=CC6D0E280C842123'}
@@ -178,7 +179,7 @@ while index >0 :
         receivers = [mail_from]  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
         try:
             smtpObj.sendmail(sender, receivers, message.as_string())
-            print ("邮件发送成功")
+            print ("邮件发送成功:"+mail_msg)
         except smtplib.SMTPException:
             print ("Error: 无法发送邮件" )
 
